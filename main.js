@@ -1,0 +1,1 @@
+const selectMenu = document.querySelectorAll('select');console.log(a)
