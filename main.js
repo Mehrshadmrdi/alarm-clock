@@ -1,5 +1,9 @@
 const selectMenu = document.querySelectorAll('select');
 const timeBox = document.querySelector('.time');
+const setAlarmBtn = document.querySelector('.btn');
+const content = document.querySelector('.content');
+let alarmTime ,alarmState = 'noset';
+const ringtone = new Audio('./files/ringtone.mp3')
 
 for(let i = 23 ; i >= 0 ; i-- ){
     i = i < 10 ? '0' + i : i;
@@ -20,4 +24,28 @@ setInterval(() =>{
     m = m < 10 ? '0' + m : m; 
     s = s < 10 ? '0' + s : s; 
     timeBox.innerHTML = `${h}:${m}:${s}`;
+    if(alarmTime == `${h}:${m}`){
+        ringtone.play();
+        ringtone.loop = true;
+    }
 }, 1000)  
+
+setAlarmBtn.addEventListener('click' , ()=>{
+    alarmTime = `${selectMenu[0].value}:${selectMenu[1].value}`
+    if(alarmTime.includes('Hour') || alarmTime.includes('Minutes'))
+    {;
+    return alert('please set your Time')};
+        checkState(alarmState)
+})
+function checkState(state){
+    if(state == 'noset'){
+        content.classList.add('Disable');
+        setAlarmBtn.innerText = 'clear alarm';
+        alarmState = 'set'
+    }else{
+        content.classList.remove('Disable')
+        alarmTime = ''
+        ringtone.pause()
+        alarmState = 'noset'
+    }
+}
